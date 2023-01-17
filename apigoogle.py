@@ -1,165 +1,451 @@
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
-import time
 from selenium.webdriver.support import expected_conditions as EC
 import datetime
+import sys
+import time
+from selenium.webdriver.chrome.service import Service as ChromeService
+options = webdriver.ChromeOptions()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+options.add_argument('--log-level=3')
+options.add_argument("--no-sandbox")
+url1 = "https://www.farmaconde.com.br/vitacon-mulher-conlife-60-capsulas"
+url2 = 'https://www.farmaconde.com.br/labirin-24mg-30comp'
+sys.stdout.write("\033[F") #back to previous line
+sys.stdout.write("\033[K") #clear line
 
-url1 = "https://www.farmaconde.com.br/vitacon-cabelos-e-unhas-60-capsulas"
-url2 = 'https://www.farmaconde.com.br/protetor-solar-corporal-anthelios-xl-protect-fps70-200ml-la-roche-posay'
+loja = ['Loja 501 São José dos Campos',
+'Loja 100 São Paulo',
+'Loja 102 PIRACAIA',
+'Loja 10 Ubatuba',
+'Loja 119 Guarulhos',
+'Loja 125 CARAPICUIBA',
+'Loja 12 CARAGUATATUBA',
+'Loja 134 Taboão Da Serra',
+'Loja 135 CAMPINAS',
+'Loja 145 MONGAGUÁ',
+'Loja 394 Guaruja DESATIVADO <-',
+'Loja 187 FRANCO DA ROCHA',
+'Loja 188 São Paulo',
+'Loja 18 São José dos Campos',
+'Loja 190 CUBATÃO',
+'Loja 191 CAMPINAS',
+'Loja 197 PRAIA GRANDE',
+'Loja 198 PRAIA GRANDE',
+'Loja 19 São José Dos Campos',
+'Loja 202 Guaratinguetá',
+'Loja 203 PRAIA GRANDE',
+'Loja 204 SÃO VICENTE',
+'Loja 205 FERRAZ DE VASCONCELOS',
+'Loja 206 SÃO JOSÉ DOS CAMPOS',
+'Loja 207 SÃO PAULO',
+'Loja 208 SÃO PAULO',
+'Loja 209 Caraguatatuba',
+'Loja 210 OSASCO',
+'Loja 211 SÃO PAULO',
+'Loja 212 SÃO LUIZ DO PARAITINGA',
+'Loja 213 SÃO PAULO',
+'Loja 215 Mogi das Cruzes',
+'Loja 216 MOGI DAS CRUZES',
+'Loja 218 SÃO PAULO',
+'Loja 219 São Paulo',
+'Loja 220 TAUBATÉ',
+'Loja 221 SÃO PAULO',
+'Loja 222 LORENA',
+'Loja 223 IMIRIM',
+'Loja 225 GUARULHOS',
+'Loja 226 SÃO PAULO',
+'Loja 227 TAUBATÉ',
+'Loja 230 PARAISÓPOLIS/MG',
+'Loja 231 UBATUBA',
+'Loja 233 SÃO JOSÉ DOS CAMPOS',
+'Loja 234 MOGI DAS CRUZES',
+'Loja 235 ITATIAIA/RJ',
+'Loja 236 SANTA BRANCA',
+'Loja 237 TUPÃ',
+'Loja 239 SÃO PAULO',
+'Loja 241 TAUBATÉ',
+'Loja 242 TAUBATÉ',
+'Loja 243 CAIEIRAS',
+'Loja 244 TAUBATÉ',
+'Loja 245 SÃO JOSÉ DOS CAMPOS',
+'Loja 246 SÃO PAULO',
+'Loja 247 SÃO JOSÉ DOS CAMPOS',
+'Loja 248 UBATUBA',
+'Loja 24 Taubaté',
+'Loja 250 LINDÓIA',
+'Loja 251 SÃO BERNARDO DO CAMPO',
+'Loja 252 SUMARÉ',
+'Loja 253 CARAGUATATUBA',
+'Loja 254 EMBU GUAÇU',
+'Loja 255 TAUBATÉ',
+'Loja 258 SÃO PAULO',
+'Loja 25 SÃO PAULO',
+'Loja 260 CAMPOS DO JORDÃO',
+'Loja 261 SÃO PAULO',
+'Loja 263 SÃO BERNARDO DO CAMPO',
+'Loja 264 MAIRIPORÃ',
+'Loja 265 MAIRIPORÃ',
+'Loja 266 SÃO PAULO',
+'Loja 267 SÃO PAULO',
+'Loja 26 São José dos Campos',
+'Loja 270 TAUBATÉ',
+'Loja 271 TREMEMBÉ',
+'Loja 272 SÃO PAULO',
+'Loja 275 São Paulo',
+'Loja 278 ITAPEVI',
+'Loja 27 São José Dos Campos',
+'Loja 280 Santo André',
+'Loja 283 ITAPETININGA',
+'Loja 284 Diadema',
+'Loja 287 GUARULHOS',
+'Loja 288 Francisco Morato',
+'Loja 289 SUZANO',
+'Loja 290 MAUÁ',
+'Loja 292 JACAREÍ',
+'Loja 293 CAMPO LIMPO PAULISTA',
+'Loja 294 IGARATÁ',
+'Loja 298 GUARULHOS',
+'Loja 299 Cotia',
+'Loja 302 CACHOEIRA PAULISTA',
+'Loja 303 SÃO PAULO',
+'Loja 305 SÃO PAULO',
+'Loja 309 RIO GRANDE DA SERRA',
+'Loja 30 SÃO JOSÉ DOS CAMPOS',
+'Loja 319 SÃO PAULO',
+'Loja 31 SÃO JOSÉ DOS CAMPOS',
+'Loja 325 SÃO JOSÉ DOS CAMPOS',
+'Loja 327 GUARULHOS',
+'Loja 328 SÃO PAULO',
+'Loja 32 SÃO JOSÉ DOS CAMPOS',
+'Loja 330 SÃO JOSÉ DOS CAMPOS',
+'Loja 332 SÃO JOSÉ DOS CAMPOS',
+'Loja 335 SÃO JOSÉ DOS CAMPOS',
+'Loja 336 APARECIDA',
+'Loja 338 CRUZEIRO',
+'Loja 33 PARAIBUNA',
+'Loja 342 Santos',
+'Loja 343 PONTAL',
+'Loja 344 HORTOLANDIA',
+'Loja 346 ITANHAEM',
+'Loja 347 VOTORANTIM',
+'Loja 348 SÃO PAULO',
+'Loja 349 SÃO PAULO',
+'Loja 351 PORTO FERREIRA',
+'Loja 352 SÃO JOSÉ DO RIO PRETO',
+'Loja 353 CAPAO REDONDO',
+'Loja 355 São Paulo',
+'Loja 356 Barueri',
+'Loja 357 SÃO JOÃO DA BOA VISTA',
+'Loja 358 São Paulo',
+'Loja 35 TAUBATÉ',
+'Loja 364 ILHABELA',
+'Loja 366 PITANGUEIRAS',
+'Loja 368 PRAIA GRANDE',
+'Loja 374 SOROCABA',
+'Loja 375 CATANDUVA',
+'Loja 376 MONTE ALTO',
+'Loja 377 MONGAGUÁ',
+'Loja 37 PINDAMONHANGABA',
+'Loja 385 SANTOS',
+'Loja 386 RIBEIRÃO PRETO',
+'Loja 389 Suzano ',
+'Loja 394 Guaruja',
+'Loja 398 SÃO PAULO',
+'Loja 402 Atibaia',
+'Loja 404 JACAREÍ',
+'Loja 405 MARILIA',
+'Loja 407 SÃO PAULO',
+'Loja 409 EMBU DAS ARTES',
+'Loja 411 SÃO PAULO',
+'Loja 414 PINDAMONHANGABA',
+'Loja 415 Piquete',
+'Loja 416 Jaboticabal',
+'Loja 44 São Bernardo do Campo',
+'LOJA 457 São Vicente',
+'Loja 458 SAO VICENTE',
+'Loja 462 Sao Vicente',
+'Loja 464 Guaruja',
+'Loja 466 Bertioga',
+'Loja 468 Peruibe',
+'Loja 46 Jacareí',
+'Loja 470 Santos',
+'Loja 48 CAÇAPAVA',
+'Loja 49 SALESÓPOLIS',
+'Loja 51 SÃO VICENTE',
+'Loja 52 São Vicente',
+'Loja 53 Campos do Jordão',
+'Loja 58 MARILIA',
+'Loja 59 Cruzeiro',
+'Loja 60 Osasco',
+'Loja 62 SÃO VICENTE',
+'loja 637 Ubatuba',
+'loja 638 São Sebastião',
+'Loja 63 São Paulo',
+'loja 641 São José Dos Campos',
+'loja 642 São José Dos Campos',
+'loja 644 São José Dos Campos',
+'loja 645 São José Dos Campos',
+'loja 646 Paraibuna',
+'loja 647 São José Dos Campos',
+'loja 648 Taubaté',
+'loja 649 Pindamonhangaba',
+'loja 655 Jacareí',
+'loja 656 Caçapava',
+'loja 658 Salesópolis',
+'loja 660 Campos Do Jordão',
+'loja 662 Marilia',
+'loja 663 Cruzeiro',
+'loja 664 São Paulo',
+'loja 669 Piracaia',
+'Loja 66 Barretos',
+'loja 672 São Paulo',
+'Loja 67 UBATUBA',
+'loja 686 Caraguatatuba',
+'Loja 72 GUARUJÁ',
+'Loja 74 SÃO PAULO',
+'Loja 75 BERTIOGA',
+'Loja 77 São José Dos Campos',
+'Loja 79 SOCORRO',
+'Loja 80 BOM JESUS DOS PERDOES',
+'Loja 82 NAZARE PAULISTA',
+'Loja 85 GUARAREMA',
+'Loja 86 PERUIBE',
+'Loja 88 Bragança Paulista',
+'Loja 89 SERTAOZINHO',
+'Loja 8 UBATUBA',
+'Loja 90 BEBEDOURO',
+'Loja 92 SANTOS',
+'Loja 98  São Paulo',
+'Loja 9 São Sebastião'
+]
+lista= ['12230-000',
+'02031-200',
+'12970-000',
+'11690-021',
+'07011-020',
+'06320-291',
+'11660-020',
+'06775-003',
+'13015-101',
+'11730-000',
+'11440-001',
+'07803-010',
+'04960-010',
+'12230-000',
+'11510-002',
+'13010-070',
+'11700-405',
+'11702-480',
+'12210-120',
+'12501-410',
+'11723-000',
+'11320-000',
+'08500-405',
+'12212-372',
+'04892-000',
+'08210-090',
+'11677-500',
+'06132-006',
+'03988-010',
+'12140-000',
+'04428-000',
+'08710-500',
+'08775-605',
+'05858-002',
+'05073-001',
+'12092-000',
+'08340-460',
+'12606-050',
+'02465-100',
+'07175-000',
+'02618-290',
+'12060-000',
+'37660-000',
+'11680-000',
+'12233-002',
+'08730-590',
+'27580-000',
+'12380-000',
+'17601-000',
+'05592-140',
+'12062-001',
+'12080-000',
+'07739-605',
+'12040-250',
+'12240-000',
+'05379-000',
+'12235-680',
+'12680-000',
+'12010-080',
+'13950-000',
+'09890-001',
+'13181-664',
+'11671-000',
+'06900-000',
+'12030-040',
+'04366-001',
+'01501-001',
+'12460-000',
+'04055-000',
+'09710-000',
+'07600-027',
+'07661-435',
+'04932-303',
+'08080-570',
+'12216-000',
+'12032-000',
+'12120-000',
+'02831-001',
+'08230-023',
+'06663-190',
+'12224-480',
+'09110-001',
+'18200-005',
+'09911-080',
+'07061-002',
+'07910-210',
+' 08694-520',
+'09370-670',
+'12305-810',
+'13230-001',
+'12350-000',
+'07181-000',
+'06717-210',
+'12630-000',
+'04470-260',
+'02710-001',
+'09450-000',
+'12225-530',
+'04424-000',
+'12221-520',
+'12228-350',
+'07160-050',
+'08032-000',
+'12247-520',
+'12248-510',
+'12243-260',
+'12224-010',
+'12570-000',
+'12712-000',
+'12260-970',
+'11025-201',
+'14180-000',
+'13188-072',
+'11740-000',
+'18110-005',
+'04447-010',
+'03949-013',
+'13660-039',
+'15040-300',
+'05835-005',
+'04144-060',
+'06401-140',
+'13876-100',
+'01045-000',
+'12050-470',
+'11630-000',
+'14750-000',
+'11702200',
+'18010-030',
+'15800-020',
+'15910-000',
+'11730-000',
+'12400-460',
+'11013-000',
+'14010-100',
+'08674-040',
+'11440-001',
+'03871-100',
+'12940-270',
+'12322-000',
+'17526-431',
+'03221-100',
+'06814-275',
+'03712-008',
+'12420-010',
+'12620-000',
+'14870-300',
+'09726-260',
+'11310-050',
+'11390-000',
+'11310-040',
+'11430-003',
+'11250-000',
+'11750-000',
+'12308-011',
+'11015-202',
+'12284-160',
+'08970-000',
+'11310-050',
+'11390-000',
+'12460-000',
+'17500-120',
+'12701-000',
+'06013-050',
+'11310-040',
+'11680-000',
+'11600-200',
+'03634-010',
+'12216-000',
+'12224-480',
+'12225-530',
+'12221-520',
+'12260-970',
+'12247-520',
+'12050-470',
+'12400-460',
+'12308-011',
+'12284-160',
+'08970-000',
+'12460-000',
+'17500-120',
+'12701-000',
+'04751-000',
+'12970-000',
+'14780-059',
+'03949-300',
+'11680-000',
+'11660-020',
+'11430-003',
+'04751-000',
+'11250-003',
+'12240-540',
+'13960-000',
+'12955-000',
+'12960-000',
+'08900-000',
+'11750-000',
+'12900-011',
+'14177-060',
+'11680-000',
+'14700-120',
+'11040-111',
+'03949-300',
+'11600-200']
 
+loja_cep = list(zip(loja, lista))
+#["12940-270","12900-011","12701-000","07910-210","12501-410","12308-011","06401-140","06717-210","09911-080","07011-020","08710-500","06013-050","09110-001","09726-260","12224-480","12210-120","12240-540","02031-200","08230-023","05073-001","03634-010","03949-300","04960-010","01045-000","08674-040","06775-003","11680-000","11250-003","12970-000","04055-000","11430-003","11600-200","12247-520","18110-005","07803-010","12050-470","06320-291","12060-000","11700-405","11310-040","12260-970","01501-001","12212-372","08970-000","12233-002","11040-111","11630-000","11702200","04751-000","14700-120","12284-160","04892-000","14750-000","12225-530","12120-000","17500-120","11660-020","37660-000","03949-013","08775-605","12092-000","12305-810","12224-010","04447-010","12460-000","12221-520","11510-002","12240-000","11695-164","06132-006","11723-000","11671-000","12955-000","11702-480","12248-510","12032-000","03988-010","11680-000","12712-000","07661-435","12235-680","12243-260","07739-605","11320-000","12570-000","12040-250","07160-050","11730-000","02618-290","12606-050","13876-100","08500-405","05379-000","11750-000","05858-002","05835-005","05592-140","02831-001","11730-000","14180-000","12322-000","12350-000","07175-000","04428-000","08900-000","03871-100","12380-000","15040-300","02465-100","08080-570","12960-000","09450-000","13660-039","12630-000","06663-190","11740-000","13188-072","12140-000","12030-040","12062-001","11688-602","04424-000","13950-000","12080-000","07600-027","18010-030","12400-460","09890-001","13181-664","13010-070","12228-350","13015-101","12420-010","08730-590","07181-000","04366-001","06900-000","17526-431","13960-000","14177-060","04470-260","18200-005","11310-050","27580-000","13230-001","09710-000","02710-001","08694-520","11013-000","14010-100","08210-090","04932-303","15910-000","09370-670","03221-100","06814-275","08032-000","08340-460","03712-008","17601-000","07061-002","15800-020"]
 
-# ceps  das lojas  10 -59  
-lista=["11690-141","11690-075","12230-030","12230-011","12210-090","12210-970","12215-270","12215-140","12248-513","12248-514","09750-300","09726-412","12327-705","12327-701","11390-150","11380-510","12460-000","12460-000","12710-210","12705-530"]
-
-
-
-
-cep1 = lista[0]
-cep2 = lista[1]
-
-nomeArquivo =  datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg')
-def loja():
-    driver = webdriver.Chrome()
-    driver.get(url1)
-    driver.fullscreen_window()
-    start = time.time()
-    driver.find_element(By.XPATH, '//*[@id="btn-cookie-allow"]/span').click()
-    driver.find_element(By.XPATH, '//*[@id="cep"]').send_keys(cep1)
-    driver.find_element(By.XPATH,'//*[@id="getrate"]/span').click()
-    driver.implicitly_wait(30)
-    driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]')
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
+for l , i  in zip(loja, lista):
+    try:
+        driver = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+        driver.get('https://www.farmaconde.com.br/teste-concare-tiras-gravidez')
+        driver.fullscreen_window()
+        driver.find_element(By.XPATH, '//*[@id="cep"]').send_keys(i)
+        time.sleep(3)
+        driver.find_element(By.XPATH,'//*[@id="getrate"]/span').click()
+        WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, 'shippings'))).is_enabled()
+        loja = driver.find_element(By.ID,'shippings')
+        #driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]').is_enabled()
+        #driver.save_screenshot(r'C:/Users/Heitor Barbosa/Desktop/clickteste/' +i+'.png')
+        print('{} , {} frete cotando!'.format(l, i))
+ 
+    except:
+        print('{}, {} frete não cotado!'.format(l, i))
+        continue
     
-    end = time.time()
-    print(end - start)
-
-    driver.find_element(By.TAG_NAME,'body').send_keys(Keys.CONTROL + 't') 
-
-    driver.get(url1)
-    driver.fullscreen_window()
-
-    time.sleep(2)
-    start = time.time()
-    driver.find_element(By.XPATH, '//*[@id="cep"]').send_keys(cep2)
-    driver.find_element(By.XPATH,'//*[@id="getrate"]/span').click()
-    driver.implicitly_wait(30)
-    driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]')
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
-    end = time.time()
-    print(end - start)
-
-
-    driver.find_element(By.TAG_NAME,'body').send_keys(Keys.CONTROL + 't') 
-
-    driver.get(url2)
-    driver.fullscreen_window()
-
-    time.sleep(2)
-    start = time.time()
-    driver.find_element(By.XPATH, '//*[@id="cep"]').send_keys(cep2)
-    driver.find_element(By.XPATH,'//*[@id="getrate"]/span').click()
-    driver.implicitly_wait(30)
-    driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]')
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
-    end = time.time()
-    print(end - start)
-
-
-    driver.find_element(By.TAG_NAME,'body').send_keys(Keys.CONTROL + 't') 
-
-    driver.get(url2)
-    driver.fullscreen_window()
-
-    time.sleep(2)
-    start = time.time()
-    driver.find_element(By.XPATH, '//*[@id="cep"]').send_keys(cep1)
-    driver.find_element(By.XPATH,'//*[@id="getrate"]/span').click()
-    driver.implicitly_wait(30)
-    driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]')
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
-    end = time.time()
-    print(end - start)
-
-    driver.find_element(By.TAG_NAME,'body').send_keys(Keys.CONTROL + 't') 
-    driver.get(url1)
-    driver.fullscreen_window()
-
-
-    driver.find_element(By.XPATH, '//*[@id="product-addtocart-button"]').click()
-    driver.implicitly_wait(30)
-    driver.get(url2)
-    driver.fullscreen_window()
-    driver.find_element(By.XPATH, '//*[@id="product-addtocart-button"]').click()
-    driver.implicitly_wait(30)
     
     
-    driver.get("https://www.farmaconde.com.br/checkout/cart/")
-    driver.refresh()
-    driver.fullscreen_window()
-    driver.find_element(By.NAME, "postcode").send_keys(cep1)
-    driver.implicitly_wait(30)
-    
-    time.sleep(5)
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
-    
-    
-    driver.find_element(By.TAG_NAME,'body').send_keys(Keys.CONTROL + 't') 
-    driver.get("https://www.farmaconde.com.br/checkout/cart/")
-    driver.refresh()
-    driver.fullscreen_window()
-    driver.find_element(By.NAME, "postcode").send_keys(cep2)
-    driver.implicitly_wait(30)
-    time.sleep(5)
-    driver.save_screenshot(datetime.datetime.now().strftime('%Y-%M-%d_%H%M%S'+'.jpg'))
-    driver.quit()
-
-
-loja()
-cep1 = lista[2]
-cep2 = lista[3]
-loja()
-
-
-cep1 =lista[4]
-cep2 = lista[5]
-loja()
-
-
-cep1 =lista[6]
-cep2 = lista[7]
-loja()
-
-
-cep1 =lista[8]
-cep2 =lista[9]
-loja()
-
-
-cep1 =lista[10]
-cep2 = lista[11]
-loja()
-
-
-cep1 =lista[12]
-cep2 = lista[13]
-loja()
-
-
-cep1 =lista[14]
-cep2 = lista[15]
-loja()
-
-
-cep1 =lista[16]
-cep2 = lista[17]
-loja()
-
-
-cep1 =lista[18]
-cep2 = lista[19]
-loja()
-
-
