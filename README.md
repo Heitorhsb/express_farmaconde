@@ -1,10 +1,4 @@
-# API Google
-automação web para verificar se o produto tem em estoque e se é possível retirar ele na loja 
+### entrega express
+## verifica se a entrega express esta habilidata no site farma conde. 
 
-
-
-
-Monitorar as 10 lojas testando 2 CEP´s por loja com print.
-    - 1 produto com estoque.
-	- 1 produto sem estoque.
-	- 2 produtos, um com estoque e outro sem.
+utilizado os conhecimentos em python, selenium e json para realizar esse projeto. 
