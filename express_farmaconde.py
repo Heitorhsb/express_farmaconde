@@ -37,7 +37,7 @@ for l , i  in zip(loja, cep):
         WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, 'shippings'))).is_enabled()
         loja = driver.find_element(By.ID,'shippings')
         #driver.find_element(By.XPATH,  '//*[@id="shippings"]/table/tbody/tr[1]/td[2]').is_enabled()
-        #driver.save_screenshot(r'C:/Users/Heitor Barbosa/Desktop/clickteste/' +i+'.png') 
+        #driver.save_screenshot('i+'.png') 
         #print('{} , {} frete cotando!'.format(l, i))
         
         if "Express" not in loja.text:
